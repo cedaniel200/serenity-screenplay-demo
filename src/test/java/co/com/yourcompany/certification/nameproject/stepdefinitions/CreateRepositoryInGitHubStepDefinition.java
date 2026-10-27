@@ -8,16 +8,13 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import net.serenitybdd.screenplay.abilities.BrowseTheWeb;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
-import org.openqa.selenium.opera.OperaDriver;
-import org.openqa.selenium.opera.OperaOptions;
 
-import static co.com.yourcompany.certification.nameproject.model.builders.RepositoryBuilder.name;
-import static co.com.yourcompany.certification.nameproject.model.builders.UserBuilder.theUser;
-import static co.com.yourcompany.certification.nameproject.model.enumerables.GitIgnore.JAVA;
-import static co.com.yourcompany.certification.nameproject.model.enumerables.License.MIT;
+import static co.com.yourcompany.certification.nameproject.models.builders.RepositoryBuilder.name;
+import static co.com.yourcompany.certification.nameproject.models.builders.UserBuilder.theUser;
+import static co.com.yourcompany.certification.nameproject.models.enumerables.GitIgnore.JAVA;
+import static co.com.yourcompany.certification.nameproject.models.enumerables.License.MIT;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
@@ -28,22 +25,12 @@ public class CreateRepositoryInGitHubStepDefinition {
     private static final String CESAR = "Cesar";
     private static final String GITHUB_USER = System.getProperty("github-user");
     private static final String SECRET = System.getProperty("password");
-    private static final String OPERA = "opera";
     public static final String REPOSITORY_NAME = "TEST_BDD";
     private static final String BASE_URL_OF_REPOSITORY_CREATED = String.format("https://github.com/%s/%s", GITHUB_USER, REPOSITORY_NAME);
 
     @Before
     public void setTheStage() {
         OnStage.setTheStage(new OnlineCast());
-        verifyIfDriverIsOpera();
-    }
-
-    private void verifyIfDriverIsOpera() {
-        if(OPERA.equals(System.getProperty("context"))){
-            OperaOptions operaOptions = new OperaOptions();
-            operaOptions.setBinary(System.getProperty("binary"));
-            BrowseTheWeb.as(theActorCalled(CESAR)).setDriver(new OperaDriver(operaOptions));
-        }
     }
 
     @Given("^Cesar wants to start versioning$")

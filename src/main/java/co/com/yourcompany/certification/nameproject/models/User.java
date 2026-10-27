@@ -1,7 +1,7 @@
-package co.com.yourcompany.certification.nameproject.model;
+package co.com.yourcompany.certification.nameproject.models;
 
 import co.com.yourcompany.certification.nameproject.exceptions.UserModelCreationException;
-import co.com.yourcompany.certification.nameproject.model.builders.UserBuilder;
+import co.com.yourcompany.certification.nameproject.models.builders.UserBuilder;
 
 import static co.com.yourcompany.certification.nameproject.util.validations.Validations.isEmptyOrNull;
 

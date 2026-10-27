@@ -2,7 +2,7 @@ package co.com.yourcompany.certification.nameproject.userinterface;
 
 import net.serenitybdd.core.pages.PageObject;
 import net.serenitybdd.screenplay.targets.Target;
-import net.thucydides.core.annotations.DefaultUrl;
+import net.serenitybdd.annotations.DefaultUrl;
 import org.openqa.selenium.By;
 
 @DefaultUrl("https://github.com/login")

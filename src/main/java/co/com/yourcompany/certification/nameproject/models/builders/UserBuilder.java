@@ -1,7 +1,7 @@
-package co.com.yourcompany.certification.nameproject.model.builders;
+package co.com.yourcompany.certification.nameproject.models.builders;
 
 import co.com.yourcompany.certification.nameproject.exceptions.UserModelCreationException;
-import co.com.yourcompany.certification.nameproject.model.User;
+import co.com.yourcompany.certification.nameproject.models.User;
 import co.com.yourcompany.certification.nameproject.util.builder.Builder;
 
 public class UserBuilder implements Builder<User> {
