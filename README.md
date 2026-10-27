@@ -44,6 +44,21 @@ Sin credenciales, la suite arranca y falla en la validación del modelo con
 `UserModelCreationException: Invalid username (null) or password (null)`. Es el comportamiento
 esperado, no un fallo de la configuración.
 
+## Docker
+
+```sh
+export GITHUB_USER=<usuario>
+export GITHUB_PASSWORD=<contraseña>
+docker compose up --abort-on-container-exit
+```
+
+El navegador no corre en tu máquina ni en el contenedor de los tests: vive en el servicio
+`chrome` (imagen oficial de Selenium) y los tests le envían comandos por HTTP. En tu pantalla no
+se abre ninguna ventana.
+
+El informe queda en `./target/site/serenity/`. Las credenciales se leen de `GITHUB_USER` y
+`GITHUB_PASSWORD`.
+
 ## Estructura
 
 ```text

@@ -1,0 +1,23 @@
+services:
+  # El navegador vive aquí. Los tests le envían comandos por HTTP; en el host no se
+  # abre ninguna ventana.
+  chrome:
+    image: selenium/standalone-chrome:155.0-20261010
+    shm_size: 2gb
+
+  tests:
+    build: .
+    depends_on:
+      - chrome
+    environment:
+      GITHUB_USER: ${GITHUB_USER:-}
+      GITHUB_PASSWORD: ${GITHUB_PASSWORD:-}
+    command:
+      - ./gradlew
+      - test
+      - aggregate
+      - --no-daemon
+      - -Dwebdriver.driver=remote
+      - -Dwebdriver.remote.url=http://chrome:4444/wd/hub
+    volumes:
+      - ./target:/app/target

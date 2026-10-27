@@ -52,6 +52,13 @@ tasks.withType(Test) {
     // Solo los -D de la línea de comandos: copiar System.properties arrastra el
     // java.home del daemon y el JVM del toolchain acaba cargando clases de otra versión.
     systemProperties = gradle.startParameter.systemPropertiesArgs
+    // En contenedores las credenciales llegan por entorno; en local, por -D.
+    ['GITHUB_USER': 'github-user', 'GITHUB_PASSWORD': 'password'].each { env, prop ->
+        def value = System.getenv(env)
+        if (value) {
+            systemProperty(prop, value)
+        }
+    }
     maxParallelForks = Runtime.runtime.availableProcessors()
 }
 
