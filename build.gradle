@@ -16,7 +16,7 @@ buildscript {
     }
 }
 
-group = 'co.com.cedaniel200.certification'
+group = 'co.com.yourcompany.certification'
 version = '1.0.0'
 
 apply plugin: 'java'
