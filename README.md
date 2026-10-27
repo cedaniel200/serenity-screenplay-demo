@@ -1,155 +1,83 @@
-# base_project_for_web_automation_projects
+# SerenityBDD + Screenplay — Demo
 
-# [Español]
-Proyecto base con ejemplo para proyectos de automatización web con serenidad BDD, screenplay y cucumber.
+![Java](https://img.shields.io/badge/Java-17-blue)
+![Serenity BDD](https://img.shields.io/badge/Serenity%20BDD-5.4.1-green)
+![Cucumber](https://img.shields.io/badge/Cucumber-8.0.4-brightgreen)
+![Gradle](https://img.shields.io/badge/Gradle-9.8.2-darkgreen)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-## Detalles generales de la implementación
+Caso completo de automatización web con Serenity BDD y el patrón Screenplay: autenticación,
+creación de un recurso y validación del resultado. Es la
+[plantilla](https://github.com/cedaniel200/serenity-screenplay-template) con el ejemplo implementado.
 
-Los tests usan tareas (tasks), interacciones (interactions), preguntas (questions), elementos de páginas (userinterface).
-La estructura completa del proyecto es la siguiente:
+## Qué demuestra
 
-````
-+ exceptions
-    Clases que controlan las posibles excepciones técnicas y de negocios que se presentan durante la ejecución de pruebas
-+ model
-    Clases relacionadas con el modelo de dominio y sus respectivos builder cuando es necesario
-+ tasks
-    Clases que representan tareas que realiza el actor a nivel de proceso de negocio
-+ interactions
-    Clases que representan las interacciones directas con la interfaz de usuario
-+ userinterface
-    Page Objects y Page Elements. Mapean los objetos de la interfaz de usuario
-+ questions
-    Objetos usados para consultar acerca del estado de la aplicación
-+ util
-    Clases de utilidad
-+ runners
-    Clases que permiten correr los tests
-+ step definitions
-    Clases que mapean las líneas Gherkin a código java
-+ features
-    La representación de las historias en archivos cucumber
-````
+- **Screenplay completo**: `tasks`, `interactions`, `questions`, `userinterfaces`, con `models`,
+  `builders` y `enumerables` encima de la estructura base.
+- **Un flujo de negocio de punta a punta**: iniciar sesión, crear un repositorio y comprobar nombre
+  y URL con aserciones reales de Hamcrest.
+- **Validaciones en el modelo**: usuario y repositorio se construyen con builders que rechazan
+  datos inválidos antes de llegar al navegador.
+- **Cucumber 8 sobre JUnit Platform**, con el informe de Serenity generado desde el plugin.
 
-## Requerimientos
+## Requisitos
 
-Para correr el proyecto se necesita Java JDK 1.8 y Gradle preferiblemente con la versión 7.1.
+- **JDK 17**. El build fija un toolchain de Java 17.
+- **Un navegador instalado** (Chrome por defecto). El driver lo resuelve Selenium Manager.
+- **Credenciales de GitHub** con permiso para crear repositorios: `github-user` y `password`.
 
-## Para correr el proyecto
+> [!WARNING]
+> El escenario **crea un repositorio real** llamado `TEST_BDD` en la cuenta que se indique. No lo
+> apuntes a una cuenta compartida ni a una organización de producción. Y si la cuenta tiene 2FA
+> activo, el inicio de sesión por interfaz no va a funcionar.
 
-En caso de querer ejecutar el proyecto en un solo navegador se debe en el archivo serenity.properties descomentar la línea 
-    
-    #webdriver.driver= chrome
+## Cómo se ejecuta
 
-eliminando el caracter #, en el ejemplo se tiene por defecto chrome. seguidamente se puede ejecutar el comando:
+```sh
+./gradlew test -Dgithub-user=<usuario> -Dpassword=<contraseña>
+./gradlew aggregate
+```
 
-    gradle clean test -Dgithub-user=tuUsuarioGitHub -Dpassword=TuContraseña aggregate
+El informe queda en `target/site/serenity/index.html`.
 
-Para ejecutar este proyecto en diferentes navegadores se debe seguir el siguiente orden de ejecución:
+Sin credenciales, la suite arranca y falla en la validación del modelo con
+`UserModelCreationException: Invalid username (null) or password (null)`. Es el comportamiento
+esperado, no un fallo de la configuración.
 
-    gradle clean 
-    gradle test -Dgithub-user=tuUsuarioGitHub -Dpassword=TuContraseña -Dcontext=navegador -Dwebdriver.driver=driverAUtilizar // Se repite dependiendo a la cantidad de driver quieras utilziar
-    gradle aggregate
-    
-Independiente de si es en un solo navegador o varios, se generará el reporte en la carpeta /target/site/serenity/
+## Estructura
 
-Ejemplo:
-    
-    gradle clean 
-    gradle test -Dgithub-user=cedaniel200 -Dpassword=123456 -Dcontext=chrome -Dwebdriver.driver=chrome
-    gradle test -Dgithub-user=cedaniel200 -Dpassword=123456 -Dcontext=firefox -Dwebdriver.driver=firefox
-    gradle test -Dgithub-user=cedaniel200 -Dpassword=123456 -Dbinary="C:\Users\miusuario\AppData\Local\Programs\Opera\60.0.3255.83\opera.exe" -Dcontext=opera -Dwebdriver.driver=opera
-    gradle aggregate
-    
-En el caso del navegador Opera, se debe añadir un nuevo parámetro que especifica la ruta dónde está el ejecutable del navegador.
+```text
+src/main/java/co/com/yourcompany/certification/nameproject
+├── tasks/              # Start, CreateRepository
+├── interactions/       # EnterAndHide, SelectDropDownButton
+├── questions/          # TheCurrent, TheRepository
+├── userinterfaces/     # páginas de GitHub
+├── models/             # User, Repository
+│   ├── builders/       # UserBuilder, RepositoryBuilder
+│   └── enumerables/    # GitIgnore, License
+├── exceptions/
+└── util/
 
- ## Jenkins file
- 
- Para utilizar el jenkinsfile necesitas crear una credencial con id password-github, ejecutar con parametro, donde se solicita el 
- usuario de github. Ésta configuracion solo ejecuta la prueba en el navegador firefox.
- 
- ## Pipeline Azure DevOps
- 
- ir a http://bit.ly/2Pxeuqy luego ingresar en Pipelines -> Releases -> DevFest -> Release-4
- 
- # Advertencia 
- El ejemplo utiliza usuarios de GitHub, si el usuario que usa es nuevo, puede fallar, ya que GitHub lo envía a una página diferente a la que se usó en el ejercicio.
- 
- ### Si tiene alguna pregunta, puede escribirme a cdanielmg200@gmail.com
+src/test
+├── java/.../runners/GitHubTestSuite.java
+├── java/.../stepdefinitions/
+└── resources/features/create_repository.feature
+```
 
+## Relación con la plantilla
 
-# [English]
+La estructura es la de [serenity-screenplay-template](https://github.com/cedaniel200/serenity-screenplay-template),
+más tres capas que el ejemplo necesita: `models/builders`, `models/enumerables` y `util`. Si partes
+de la plantilla, estos paquetes no vienen: se añaden cuando el caso los pide.
 
-base project with example for web automation projects with serenity BDD, screenplay and cucumber
+## Ten en cuenta
 
-## General details of the implementation
+- **Depende de GitHub.** Si cambia su flujo de creación de repositorios, el ejemplo deja de servir.
+- **No se puede ejecutar sin cuenta.** Es una demo de referencia, no una suite que corra en CI sin
+  secretos.
+- **`Jenkinsfile` heredado.** Está escrito para Windows (`bat`) y espera una credencial de Jenkins
+  llamada `password-github`. No se usa en el flujo actual.
 
-The tests use tasks, interactions, questions, elements of pages (userinterface).
-The complete structure of the project is the following:
+## Licencia
 
-````
-+ exceptions
-     Classes that control the possible technical and business exceptions that arise during the execution of tests
-+ model
-     Classes related to the domain model and their respective builders when necessary
-+ tasks
-     Classes that represent tasks performed by the actor at the business process level
-+ interactions
-     Classes that represent direct interactions with the user interface
-+ userinterface
-     Page Objects and Page Elements. Map the objects of the user interface
-+ questions
-     Objects used to check the status of the application
-+ util
-     Utility classes
-+ runners
-     Classes that allow to run the tests
-+ step definitions
-     Classes that map the Gherkin lines to java code
-+ features
-     The representation of the stories in cucumber archives
-````
-## Requirements
-
-To run the project you need Java JDK 1.8 and Gradle preferably with version 7.1.
-
-## To run the project
-
-In case you want to run the project in a single browser, you must in the file serenity.properties uncomment the line
-    
-    #webdriver.driver= chrome
-
-eliminating the character #, in the example you have default chrome. Then the command can be executed:
-
-    gradle clean test -Dgithub-user=tuUsuarioGitHub -Dpassword=TuContraseña aggregate
-
-To execute this project in different browsers the following order of execution must be followed:
-
-    gradle clean 
-    gradle test -Dgithub-user=tuUsuarioGitHub -Dpassword=TuContraseña -Dcontext=navegador -Dwebdriver.driver=driverAUtilizar // Repeats depending on the amount of driver you want to use
-    gradle aggregate
-    
-Regardless of whether it is in a single browser or several, the report will be generated in the folder /target/site/serenity/
-
-Example:
-    
-    gradle clean 
-    gradle test -Dgithub-user=cedaniel200 -Dpassword=123456 -Dcontext=chrome -Dwebdriver.driver=chrome
-    gradle test -Dgithub-user=cedaniel200 -Dpassword=123456 -Dcontext=firefox -Dwebdriver.driver=firefox
-    gradle test -Dgithub-user=cedaniel200 -Dpassword=123456 -Dbinary="C:\Users\miusuario\AppData\Local\Programs\Opera\60.0.3255.83\opera.exe" -Dcontext=opera -Dwebdriver.driver=opera
-    gradle aggregate
-    
-In the case of the Opera browser, a new parameter must be added specifying the path where the browser executable is.
-
-## Jenkins file
- 
-To use the jenkinsfile you need to create a credential with id password-github, Run with parameter, where the github user is requested. This configuration only runs the test in the firefox browser.
-
- ## Pipeline Azure DevOps
- 
-go to http://bit.ly/2Pxeuqy after that, click in Pipelines -> Releases -> DevFest -> Release-4
- 
-# Warning
-The example uses GitHub users, if the user used is new it may fail, since GitHub sends it to a different page than the one used in the exercise.
-
-## If you have any questions you can write me at cdanielmg200@gmail.com
+[MIT](LICENSE) © Cesar Daniel
