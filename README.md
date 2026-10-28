@@ -1,4 +1,4 @@
-# Serenity BDD + Screenplay — Demo
+# Serenity BDD + Screenplay — Demo Swag Labs
 
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![Serenity BDD](https://img.shields.io/badge/Serenity%20BDD-5.4.1-green)
@@ -6,93 +6,93 @@
 ![Gradle](https://img.shields.io/badge/Gradle-9.8.2-darkgreen)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-Caso completo de automatización web con Serenity BDD y el patrón Screenplay: autenticación,
-creación de un recurso y validación del resultado. Es la
-[plantilla](https://github.com/cedaniel200/serenity-screenplay-template) con el ejemplo implementado.
+Flujo de compra completo contra [saucedemo.com](https://www.saucedemo.com): iniciar sesión, añadir
+productos, comprobar el carrito y finalizar la compra. Es la
+[plantilla](https://github.com/cedaniel200/serenity-screenplay-template) con un caso real implementado.
 
 ## Qué incluye
 
-- **Screenplay completo**: `tasks`, `interactions`, `questions`, `userinterfaces`, con `models`,
-  `builders` y `enumerables` encima de la estructura base.
-- **Un flujo de negocio de punta a punta**: iniciar sesión, crear un repositorio y comprobar nombre
-  y URL con aserciones reales de Hamcrest.
-- **Validaciones en el modelo**: usuario y repositorio se construyen con builders que rechazan
-  datos inválidos antes de llegar al navegador.
+| Paso | Qué ejercita |
+|---|---|
+| Inicio de sesión | Formulario con credenciales y espera a la carga del inventario |
+| Añadir al carrito | Dos productos distintos y comprobación del contador |
+| Checkout | Datos del comprador y confirmación del pedido |
+
+Sobre esa base:
+
+- **Screenplay completo**: `tasks`, `interactions`, `questions`, `userinterfaces` y `models`.
+- **Aserciones reales**: contador del carrito y mensaje de confirmación.
+- **Credenciales públicas**: el sitio documenta sus usuarios de prueba, así que cualquiera puede
+  ejecutar la suite.
 - **Cucumber 8 sobre JUnit Platform**, con el informe de Serenity generado desde el plugin.
 
 ## Requisitos
 
 - **JDK 17**. El build fija un toolchain de Java 17.
 - **Un navegador instalado** (Chrome por defecto). El driver lo resuelve Selenium Manager.
-- **Credenciales de GitHub** con permiso para crear repositorios: `github-user` y `password`.
-
-> [!WARNING]
-> El escenario **crea un repositorio real** llamado `TEST_BDD` en la cuenta que se indique. No lo
-> apuntes a una cuenta compartida ni a una organización de producción. Y si la cuenta tiene 2FA
-> activo, el inicio de sesión por interfaz no va a funcionar.
+- **Conexión a internet**: el escenario se ejecuta contra un sitio público.
 
 ## Cómo se ejecuta
 
 ```sh
-./gradlew test -Dgithub-user=<usuario> -Dpassword=<contraseña>
+./gradlew test
 ./gradlew aggregate
 ```
 
 El informe queda en `target/site/serenity/index.html`.
 
-Sin credenciales, la suite arranca y falla en la validación del modelo con
-`UserModelCreationException: Invalid username (null) or password (null)`. Es el comportamiento
-esperado, no un fallo de la configuración.
-
-## Docker
+Para ejecutarlo sin abrir ventana:
 
 ```sh
-export GITHUB_USER=<usuario>
-export GITHUB_PASSWORD=<contraseña>
-docker compose up --abort-on-container-exit
+./gradlew test -Dheadless.mode=true
 ```
 
-El navegador no corre en tu máquina ni en el contenedor de los tests: vive en el servicio
-`chrome` (imagen oficial de Selenium) y los tests le envían comandos por HTTP. En tu pantalla no
-se abre ninguna ventana.
-
-El informe queda en `./target/site/serenity/`. Las credenciales se leen de `GITHUB_USER` y
-`GITHUB_PASSWORD`.
+Las credenciales (`standard_user` / `secret_sauce`) son las públicas del sitio y viajan como datos
+del escenario, no están en el código.
 
 ## Estructura
 
 ```text
-src/main/java/co/com/yourcompany/certification/nameproject
-├── tasks/              # Start, CreateRepository
-├── interactions/       # EnterAndHide, SelectDropDownButton
-├── questions/          # TheCurrent, TheRepository
-├── userinterfaces/     # páginas de GitHub
-├── models/             # User, Repository
-│   ├── builders/       # UserBuilder, RepositoryBuilder
-│   └── enumerables/    # GitIgnore, License
-├── exceptions/
-└── util/
+src/main/java/com/cedaniel200/automatizacion
+├── tasks/            # Login, AddToCart, Checkout
+├── interactions/     # SetWindowSize
+├── questions/        # TheCartBadge, TheOrderConfirmation
+├── userinterfaces/   # LoginPage, InventoryPage, CheckoutPage
+├── models/           # User, Buyer
+└── exceptions/       # AuthenticationError, CheckoutError
 
 src/test
-├── java/.../runners/GitHubTestSuite.java
-├── java/.../stepdefinitions/
-└── resources/features/create_repository.feature
+├── java/.../runners/PurchaseTestSuite.java
+├── java/.../stepdefinitions/PurchaseStepDefinitions.java
+└── resources/features/purchase.feature
 ```
 
 ## Relación con la plantilla
 
-La estructura es la de [serenity-screenplay-template](https://github.com/cedaniel200/serenity-screenplay-template),
-más tres capas que el ejemplo necesita: `models/builders`, `models/enumerables` y `util`. Si partes
-de la plantilla, estos paquetes no vienen: se añaden cuando el caso los pide.
+Usa la estructura de [serenity-screenplay-template](https://github.com/cedaniel200/serenity-screenplay-template)
+con el paquete adaptado al proyecto.
+
+## Docker
+
+```sh
+docker compose up --abort-on-container-exit
+```
+
+El navegador corre en el servicio `chrome` (imagen oficial de Selenium); los tests le envían
+comandos por HTTP y no abren ninguna ventana en tu máquina. El informe queda en
+`./target/site/serenity/`.
 
 ## Ten en cuenta
 
-- **Depende de GitHub.** Si cambia su flujo de creación de repositorios, el ejemplo deja de servir.
-- **No se puede ejecutar sin cuenta.** Es una demo de referencia, no una suite que corra en CI sin
-  secretos.
-- **El `Jenkinsfile` necesita tu Jenkins.** La pipeline elige `sh` o `bat` según el agente, así que
-  corre en Unix y en Windows, pero espera una credencial llamada `password-github` y los plugins de
-  siempre. Si no tienes ese servidor, ignóralo: el flujo real es `./gradlew` o Docker.
+- **Depende de un sitio de terceros.** Si Swag Labs cambia su DOM, los localizadores se rompen. Usan
+  atributos `data-test`, que es lo más estable que ofrece la página.
+- **El headless necesita viewport propio.** Chrome arranca con 800x600 y la aplicación cambia el
+  diseño según el ancho; por eso la tarea `Login` ajusta la ventana a 1920x1080. Sin eso, algunos
+  botones quedan fuera de la zona visible y el clic no navega.
+- **Versión anterior**: hasta `v1.0.0` el escenario automatizaba GitHub y requería credenciales
+  propias. Se cambió porque un demo que no se puede ejecutar sin una cuenta no demuestra nada.
+- **`gradle.startParameter.continueOnFailure = true`** está heredado: Gradle sigue tras una tarea
+  fallida.
 
 ## Licencia
 
