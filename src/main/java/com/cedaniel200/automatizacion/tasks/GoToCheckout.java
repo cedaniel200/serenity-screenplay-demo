@@ -22,7 +22,7 @@ public class GoToCheckout implements Task {
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
                 WaitUntil.the(CART_LINK, isVisible()).forNoMoreThan(Duration.ofSeconds(10)),
-                com.cedaniel200.automatizacion.interactions.PressEnter.on(CART_LINK),
+                Click.on(CART_LINK),
                 WaitUntil.the(CHECKOUT, isVisible()).forNoMoreThan(Duration.ofSeconds(10)),
                 Click.on(CHECKOUT),
                 WaitUntil.the(FIRST_NAME, isVisible()).forNoMoreThan(Duration.ofSeconds(10))
