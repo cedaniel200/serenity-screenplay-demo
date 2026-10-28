@@ -15,13 +15,13 @@ productos, comprobar el carrito y finalizar la compra. Es la
 | Paso | Qué ejercita |
 |---|---|
 | Inicio de sesión | Formulario con credenciales y espera a la carga del inventario |
-| Añadir al carrito | Dos productos distintos y comprobación del contador |
+| Añadir al carrito | Dos productos distintos |
 | Checkout | Datos del comprador y confirmación del pedido |
 
 Sobre esa base:
 
 - **Screenplay completo**: `tasks`, `questions`, `userinterfaces` y `models`.
-- **Aserciones reales**: contador del carrito y mensaje de confirmación.
+- **Aserción real**: el mensaje de confirmación del pedido.
 - **Credenciales públicas**: el sitio documenta sus usuarios de prueba, así que cualquiera puede
   ejecutar la suite.
 - **Cucumber 8 sobre JUnit Platform**, con el informe de Serenity generado desde el plugin.
