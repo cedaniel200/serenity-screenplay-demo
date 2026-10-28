@@ -3,10 +3,6 @@ pipeline {
 
     triggers { cron('H */4 * * 1-5') }
 
-    parameters {
-        string(name: 'USER', defaultValue: 'tu usuario', description: 'Usuario de GitHub')
-    }
-
     stages {
         stage('build') {
             steps {
@@ -22,14 +18,11 @@ pipeline {
 
         stage('test') {
             steps {
-                // La credencial `password-github` debe existir en el servidor Jenkins.
-                withCredentials([string(credentialsId: 'password-github', variable: 'PASSWORD')]) {
-                    script {
-                        if (isUnix()) {
-                            sh "./gradlew test -Dgithub-user=${params.USER} -Dpassword=${PASSWORD}"
-                        } else {
-                            bat "gradlew.bat test -Dgithub-user=${params.USER} -Dpassword=${PASSWORD}"
-                        }
+                script {
+                    if (isUnix()) {
+                        sh './gradlew test -Dheadless.mode=true'
+                    } else {
+                        bat 'gradlew.bat test -Dheadless.mode=true'
                     }
                 }
             }
