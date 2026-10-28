@@ -20,9 +20,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh './gradlew test'
+                        sh './gradlew test -Dheadless.mode=true'
                     } else {
-                        bat 'gradlew.bat test'
+                        bat 'gradlew.bat test -Dheadless.mode=true'
                     }
                 }
             }
