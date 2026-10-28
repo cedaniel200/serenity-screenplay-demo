@@ -20,7 +20,7 @@ productos, comprobar el carrito y finalizar la compra. Es la
 
 Sobre esa base:
 
-- **Screenplay completo**: `tasks`, `interactions`, `questions`, `userinterfaces` y `models`.
+- **Screenplay completo**: `tasks`, `questions`, `userinterfaces` y `models`.
 - **Aserciones reales**: contador del carrito y mensaje de confirmación.
 - **Credenciales públicas**: el sitio documenta sus usuarios de prueba, así que cualquiera puede
   ejecutar la suite.
@@ -55,7 +55,6 @@ del escenario, no están en el código.
 ```text
 src/main/java/com/cedaniel200/automatizacion
 ├── tasks/            # Login, AddToCart, Checkout
-├── interactions/     # SetWindowSize
 ├── questions/        # TheCartBadge, TheOrderConfirmation
 ├── userinterfaces/   # LoginPage, InventoryPage, CheckoutPage
 ├── models/           # User, Buyer
@@ -86,9 +85,6 @@ comandos por HTTP y no abren ninguna ventana en tu máquina. El informe queda en
 
 - **Depende de un sitio de terceros.** Si Swag Labs cambia su DOM, los localizadores se rompen. Usan
   atributos `data-test`, que es lo más estable que ofrece la página.
-- **El headless necesita viewport propio.** Chrome arranca con 800x600 y la aplicación cambia el
-  diseño según el ancho; por eso la tarea `Login` ajusta la ventana a 1920x1080. Sin eso, algunos
-  botones quedan fuera de la zona visible y el clic no navega.
 - **Versión anterior**: hasta `v1.0.0` el escenario automatizaba GitHub y requería credenciales
   propias. Se cambió porque un demo que no se puede ejecutar sin una cuenta no demuestra nada.
 - **`gradle.startParameter.continueOnFailure = true`** está heredado: Gradle sigue tras una tarea

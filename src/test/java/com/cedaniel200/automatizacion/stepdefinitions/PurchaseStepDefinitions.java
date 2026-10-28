@@ -13,7 +13,7 @@ import net.serenitybdd.screenplay.actors.OnlineCast;
 
 import java.util.List;
 
-import static com.cedaniel200.automatizacion.tasks.Login.with;
+import static com.cedaniel200.automatizacion.tasks.Login.as;
 import static com.cedaniel200.automatizacion.tasks.PlaceAnOrder.with;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
@@ -29,7 +29,7 @@ public class PurchaseStepDefinitions {
     @Given("{word} is logged in with {string} and {string}")
     public void isLoggedIn(String actor, String username, String password) {
         theActorCalled(actor).attemptsTo(
-                com.cedaniel200.automatizacion.tasks.Login.with(new User(username, password))
+                as(new User(username, password))
         );
     }
 

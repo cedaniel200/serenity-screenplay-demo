@@ -1,7 +1,6 @@
 package com.cedaniel200.automatizacion.tasks;
 
 import com.cedaniel200.automatizacion.exceptions.AuthenticationError;
-import com.cedaniel200.automatizacion.interactions.SetWindowSize;
 import com.cedaniel200.automatizacion.models.User;
 import net.serenitybdd.annotations.Step;
 import net.serenitybdd.screenplay.Actor;
@@ -36,7 +35,6 @@ public class Login implements Task {
     public <T extends Actor> void performAs(T actor) {
         actor.attemptsTo(
                 Open.url(SITE),
-                SetWindowSize.to(1920, 1080),
                 WaitUntil.the(USERNAME, isVisible()).forNoMoreThan(Duration.ofSeconds(10)),
                 Enter.theValue(user.username()).into(USERNAME),
                 Enter.theValue(user.password()).into(PASSWORD),
@@ -47,7 +45,7 @@ public class Login implements Task {
                 .orComplainWith(AuthenticationError.class, MESSAGE_AUTHENTICATION_FAILED));
     }
 
-    public static Login with(User user) {
+    public static Login as(User user) {
         return instrumented(Login.class, user);
     }
 }
