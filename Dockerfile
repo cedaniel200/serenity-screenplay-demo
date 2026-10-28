@@ -14,7 +14,7 @@ COPY gradlew settings.gradle build.gradle ./
 COPY gradle ./gradle
 RUN chmod +x gradlew && ./gradlew --version --no-daemon
 
-COPY serenity.properties ./
+COPY serenity.conf ./
 COPY src ./src
 
 CMD ["./gradlew", "test", "aggregate", "--no-daemon"]

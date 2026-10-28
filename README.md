@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
 Flujo de compra completo contra [saucedemo.com](https://www.saucedemo.com): iniciar sesión, añadir
-productos, comprobar el carrito y finalizar la compra. Es la
+productos y finalizar la compra. Es la
 [plantilla](https://github.com/cedaniel200/serenity-screenplay-template) con un caso real implementado.
 
 ## Qué incluye
@@ -54,10 +54,10 @@ del escenario, no están en el código.
 
 ```text
 src/main/java/com/cedaniel200/automatizacion
-├── tasks/            # Login, AddToCart, Checkout
-├── questions/        # TheCartBadge, TheOrderConfirmation
+├── tasks/            # Login, AddToCart, GoToCheckout, FillShippingInfo, ConfirmOrder, PlaceAnOrder
+├── questions/        # TheOrderConfirmation
 ├── userinterfaces/   # LoginPage, InventoryPage, CheckoutPage
-├── models/           # User, Buyer
+├── models/           # User, Buyer, Product
 └── exceptions/       # AuthenticationError, CheckoutError
 
 src/test
@@ -85,6 +85,10 @@ comandos por HTTP y no abren ninguna ventana en tu máquina. El informe queda en
 
 - **Depende de un sitio de terceros.** Si Swag Labs cambia su DOM, los localizadores se rompen. Usan
   atributos `data-test`, que es lo más estable que ofrece la página.
+- **El aviso de contraseña filtrada hay que desactivarlo.** Chrome muestra un popup de
+  `PasswordLeakDetection` al enviar el formulario. No es UI de la página: tapa el navegador y se
+  come los clics siguientes, así que los fallos aparecen en pasos que no tienen nada que ver. Las
+  capacidades van en `serenity.conf`, no en `chrome.switches`, que no siempre las propaga.
 - **Versión anterior**: hasta `v1.0.0` el escenario automatizaba GitHub y requería credenciales
   propias. Se cambió porque un demo que no se puede ejecutar sin una cuenta no demuestra nada.
 - **`gradle.startParameter.continueOnFailure = true`** está heredado: Gradle sigue tras una tarea
