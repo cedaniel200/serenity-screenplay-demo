@@ -1,11 +1,11 @@
 package co.com.yourcompany.certification.nameproject.interactions;
 
-import co.com.yourcompany.certification.nameproject.model.enumerables.GitIgnore;
-import co.com.yourcompany.certification.nameproject.model.enumerables.License;
+import co.com.yourcompany.certification.nameproject.models.enumerables.GitIgnore;
+import co.com.yourcompany.certification.nameproject.models.enumerables.License;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Interaction;
 import net.serenitybdd.screenplay.targets.Target;
-import net.thucydides.core.annotations.Step;
+import net.serenitybdd.annotations.Step;
 import org.openqa.selenium.WebElement;
 
 import java.util.concurrent.Callable;

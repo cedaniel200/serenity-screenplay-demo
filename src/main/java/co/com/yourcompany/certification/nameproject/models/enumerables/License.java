@@ -1,4 +1,4 @@
-package co.com.yourcompany.certification.nameproject.model.enumerables;
+package co.com.yourcompany.certification.nameproject.models.enumerables;
 
 public enum License {
 

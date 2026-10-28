@@ -1,9 +1,9 @@
-package co.com.yourcompany.certification.nameproject.model.builders;
+package co.com.yourcompany.certification.nameproject.models.builders;
 
 import co.com.yourcompany.certification.nameproject.exceptions.RepositoryModelCreationException;
-import co.com.yourcompany.certification.nameproject.model.Repository;
-import co.com.yourcompany.certification.nameproject.model.enumerables.GitIgnore;
-import co.com.yourcompany.certification.nameproject.model.enumerables.License;
+import co.com.yourcompany.certification.nameproject.models.Repository;
+import co.com.yourcompany.certification.nameproject.models.enumerables.GitIgnore;
+import co.com.yourcompany.certification.nameproject.models.enumerables.License;
 import co.com.yourcompany.certification.nameproject.util.builder.Builder;
 
 public class RepositoryBuilder implements Builder<Repository> {

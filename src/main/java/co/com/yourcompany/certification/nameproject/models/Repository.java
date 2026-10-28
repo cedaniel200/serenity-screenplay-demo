@@ -1,9 +1,9 @@
-package co.com.yourcompany.certification.nameproject.model;
+package co.com.yourcompany.certification.nameproject.models;
 
 import co.com.yourcompany.certification.nameproject.exceptions.RepositoryModelCreationException;
-import co.com.yourcompany.certification.nameproject.model.builders.RepositoryBuilder;
-import co.com.yourcompany.certification.nameproject.model.enumerables.GitIgnore;
-import co.com.yourcompany.certification.nameproject.model.enumerables.License;
+import co.com.yourcompany.certification.nameproject.models.builders.RepositoryBuilder;
+import co.com.yourcompany.certification.nameproject.models.enumerables.GitIgnore;
+import co.com.yourcompany.certification.nameproject.models.enumerables.License;
 
 import static co.com.yourcompany.certification.nameproject.util.validations.Validations.isEmptyOrNull;
 

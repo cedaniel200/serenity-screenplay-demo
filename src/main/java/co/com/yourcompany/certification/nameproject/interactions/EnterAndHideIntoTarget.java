@@ -3,7 +3,7 @@ package co.com.yourcompany.certification.nameproject.interactions;
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.actions.EnterValue;
 import net.serenitybdd.screenplay.targets.Target;
-import net.thucydides.core.annotations.Step;
+import net.serenitybdd.annotations.Step;
 
 public class EnterAndHideIntoTarget extends EnterValue {
 

@@ -1,51 +1,64 @@
 buildscript {
     repositories {
         mavenCentral()
-        mavenLocal()
+        
     }
     ext{
-        serenityVersion = '3.2.5'
+        serenityVersion = '5.4.1'
         serenityGradlePluginVersion = '2.4.34'
-        serenityCucumberVersion = '3.2.5'
+        serenityCucumberVersion = '5.4.1'
 
-        junitVersion = '4.13.2'
-        slf4jVersion = '1.7.36'
-        assertjVersion = '3.23.1'
+        slf4jVersion = '2.0.20'
+        assertjVersion = '3.27.7'
     }
     dependencies {
         classpath("net.serenity-bdd:serenity-gradle-plugin:$rootProject.ext.serenityGradlePluginVersion")
     }
 }
 
-group 'co.com.yourcompany.certification'
-version '1.0-SNAPSHOT'
+group = 'co.com.yourcompany.certification'
+version = '1.0.0'
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'net.serenity-bdd.aggregator'
 
-sourceCompatibility = 1.8
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    
 }
 
 dependencies {
     testImplementation "net.serenity-bdd:serenity-core:$rootProject.ext.serenityVersion"
-    testImplementation "net.serenity-bdd:serenity-junit:$rootProject.ext.serenityVersion"
     implementation "net.serenity-bdd:serenity-screenplay:$rootProject.ext.serenityVersion"
     implementation "net.serenity-bdd:serenity-screenplay-webdriver:$rootProject.ext.serenityVersion"
     implementation "net.serenity-bdd:serenity-cucumber:$rootProject.ext.serenityCucumberVersion"
+    testImplementation "io.cucumber:cucumber-junit-platform-engine:8.0.4"
+    testImplementation "org.junit.platform:junit-platform-suite:6.1.3"
 
-    testImplementation "junit:junit:$rootProject.ext.junitVersion"
     testImplementation "org.assertj:assertj-core:$rootProject.ext.assertjVersion"
 
     testImplementation "org.slf4j:slf4j-simple:$rootProject.ext.slf4jVersion"
 }
 
-tasks.withType(Test){
-    systemProperties = System.properties as Map<String, ?>
+tasks.withType(Test) {
+    useJUnitPlatform()
+    // Solo los -D de la línea de comandos: copiar System.properties arrastra el
+    // java.home del daemon y el JVM del toolchain acaba cargando clases de otra versión.
+    systemProperties = gradle.startParameter.systemPropertiesArgs
+    // En contenedores las credenciales llegan por entorno; en local, por -D.
+    ['GITHUB_USER': 'github-user', 'GITHUB_PASSWORD': 'password'].each { env, prop ->
+        def value = System.getenv(env)
+        if (value) {
+            systemProperty(prop, value)
+        }
+    }
     maxParallelForks = Runtime.runtime.availableProcessors()
 }
 
