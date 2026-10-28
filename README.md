@@ -90,8 +90,9 @@ de la plantilla, estos paquetes no vienen: se añaden cuando el caso los pide.
 - **Depende de GitHub.** Si cambia su flujo de creación de repositorios, el ejemplo deja de servir.
 - **No se puede ejecutar sin cuenta.** Es una demo de referencia, no una suite que corra en CI sin
   secretos.
-- **`Jenkinsfile` heredado.** Está escrito para Windows (`bat`) y espera una credencial de Jenkins
-  llamada `password-github`. No se usa en el flujo actual.
+- **El `Jenkinsfile` necesita tu Jenkins.** La pipeline elige `sh` o `bat` según el agente, así que
+  corre en Unix y en Windows, pero espera una credencial llamada `password-github` y los plugins de
+  siempre. Si no tienes ese servidor, ignóralo: el flujo real es `./gradlew` o Docker.
 
 ## Licencia
 
