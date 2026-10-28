@@ -11,8 +11,12 @@ public class InventoryPage {
             .locatedBy("[data-test='inventory-list']");
     public static final Target ADD_TO_CART = Target.the("botón de añadir al carrito de {0}")
             .locatedBy("[data-test='add-to-cart-{0}']");
+    public static final Target REMOVE_FROM_CART = Target.the("remove from cart button for {0}")
+            .locatedBy("[data-test='remove-{0}']");
     public static final Target CART_BADGE = Target.the("contador del carrito")
             .locatedBy("[data-test='shopping-cart-badge']");
     public static final Target CART_LINK = Target.the("enlace al carrito")
             .locatedBy("[data-test='shopping-cart-link']");
+    public static final Target CART_ICON = Target.the("icono del carrito")
+            .locatedBy("[data-test='shopping-cart-link'] svg");
 }
