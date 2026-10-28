@@ -13,8 +13,8 @@ import net.serenitybdd.screenplay.actors.OnlineCast;
 
 import java.util.List;
 
-import static com.cedaniel200.automatizacion.tasks.Login.as;
-import static com.cedaniel200.automatizacion.tasks.PlaceAnOrder.with;
+import com.cedaniel200.automatizacion.tasks.Login;
+import com.cedaniel200.automatizacion.tasks.PlaceAnOrder;
 import static net.serenitybdd.screenplay.GivenWhenThen.seeThat;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorCalled;
 import static net.serenitybdd.screenplay.actors.OnStage.theActorInTheSpotlight;
@@ -29,7 +29,7 @@ public class PurchaseStepDefinitions {
     @Given("{word} is logged in with {string} and {string}")
     public void isLoggedIn(String actor, String username, String password) {
         theActorCalled(actor).attemptsTo(
-                as(new User(username, password))
+                Login.as(new User(username, password))
         );
     }
 
@@ -38,7 +38,7 @@ public class PurchaseStepDefinitions {
                                  String firstName, String lastName, String postalCode) {
         List<Product> products = List.of(Product.named(firstProduct), Product.named(secondProduct));
         theActorInTheSpotlight().attemptsTo(
-                com.cedaniel200.automatizacion.tasks.PlaceAnOrder.with(
+                PlaceAnOrder.with(
                         products, new Buyer(firstName, lastName, postalCode))
         );
     }

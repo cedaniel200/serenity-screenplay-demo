@@ -85,14 +85,8 @@ comandos por HTTP y no abren ninguna ventana en tu máquina. El informe queda en
 
 - **Depende de un sitio de terceros.** Si Swag Labs cambia su DOM, los localizadores se rompen. Usan
   atributos `data-test`, que es lo más estable que ofrece la página.
-- **El aviso de contraseña de Chrome hay que desactivarlo.** Tras enviar el formulario aparece una
-  burbuja del navegador («contraseña filtrada» / «guardar contraseña»). No es UI de la página: tapa
-  el contenido y se come los clics siguientes, así que los fallos aparecen en pasos que no tienen
-  relación. Se desactiva en `serenity.conf` con dos cosas: `--disable-features=PasswordLeakDetection`
-  y las preferencias `credentials_enable_service`, `profile.password_manager_enabled` y
-  `profile.password_manager_leak_detection`. El flag solo no basta.
-- **`serenity.conf` va en `src/test/resources`**, no en la raíz del proyecto: es donde Serenity lo
-  busca según la documentación oficial. En la raíz se ignora silenciosamente.
+- **Ajustes de Chrome para las pruebas**: `serenity.conf` (en `src/test/resources`) desactiva los
+  avisos del navegador para que no interfieran con el escenario.
 - **Versión anterior**: hasta `v1.0.0` el escenario automatizaba GitHub y requería credenciales
   propias. Se cambió porque un demo que no se puede ejecutar sin una cuenta no demuestra nada.
 - **`gradle.startParameter.continueOnFailure = true`** está heredado: Gradle sigue tras una tarea
