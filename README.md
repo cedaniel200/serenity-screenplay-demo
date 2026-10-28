@@ -1,4 +1,4 @@
-# SerenityBDD + Screenplay — Demo
+# Serenity BDD + Screenplay — Demo
 
 ![Java](https://img.shields.io/badge/Java-17-blue)
 ![Serenity BDD](https://img.shields.io/badge/Serenity%20BDD-5.4.1-green)
@@ -10,7 +10,7 @@ Caso completo de automatización web con Serenity BDD y el patrón Screenplay: a
 creación de un recurso y validación del resultado. Es la
 [plantilla](https://github.com/cedaniel200/serenity-screenplay-template) con el ejemplo implementado.
 
-## Qué demuestra
+## Qué incluye
 
 - **Screenplay completo**: `tasks`, `interactions`, `questions`, `userinterfaces`, con `models`,
   `builders` y `enumerables` encima de la estructura base.
